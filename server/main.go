@@ -6,12 +6,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"net/http"
 	"io"
+	"encoding/json"
+	"bytes"
 )
-
-type DogImage struct {
-	Message string `json:"message"`
-	Success bool   `json:"success"`
-}
 
 const API_URL = "https://dog.ceo/api/breeds/image/random"
 
@@ -32,8 +29,23 @@ func getImages(c *fiber.Ctx) error {
 	 }
 
 	 defer resp.Body.Close()
-	 body, err := io.ReadAll(resp.Body)
-	 fmt.Println(resp)
 
-	 return c.JSON(body)
+	 body, err := io.ReadAll(resp.Body)
+	 formattedData := formatJSON(body)
+
+	 fmt.Println(formattedData)
+
+	 return c.JSON(formattedData)
+}
+
+func formatJSON(data []byte) string {
+    var out bytes.Buffer
+    err := json.Indent(&out, data, "", " ")
+
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    d := out.Bytes()
+    return string(d)
 }
