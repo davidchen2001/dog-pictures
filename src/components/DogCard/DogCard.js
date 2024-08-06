@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Card,
@@ -13,7 +14,22 @@ import {
   Button,
 } from "@chakra-ui/react";
 
+import { BASE_URL } from "../../App";
+
 function DogCard() {
+  useEffect(() => {
+    const getData = async () => {
+      const query = await axios
+        .get(BASE_URL + "/dog")
+        .then(function (response) {
+          console.log(response);
+        });
+    };
+    getData().then((data) => {
+      console.log(data);
+    });
+  }, []);
+
   return (
     <Card maxW="sm">
       <CardBody>

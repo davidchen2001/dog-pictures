@@ -12,4 +12,7 @@ function App() {
   );
 }
 
+export const BASE_URL =
+  process.env.NODE_ENV === "development" ? "http://localhost:6000/api" : "/api";
+
 export default App;
